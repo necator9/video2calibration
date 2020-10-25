@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import numpy as np
 import cv2
 import os
@@ -8,7 +9,8 @@ import pickle
 from glob import glob
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Calibrate camera using a video of a chessboard or a sequence of images.')
+    parser = argparse.ArgumentParser(description='Calibrate camera using a video of a chessboard or a '
+                                                 'sequence of images')
     parser.add_argument('input', help='input video file or glob mask')
     parser.add_argument('out', help='output calibration yaml file')
     parser.add_argument('--debug-dir', help='path to directory where images with detected chessboard will be written',
@@ -60,12 +62,12 @@ if __name__ == '__main__':
             cv2.drawChessboardCorners(img_chess, pattern_size, corners, found)
             cv2.imwrite(os.path.join(args.debug_dir, '%04d.png' % i), img_chess)
         if not found:
-            print 'not found'
+            print('not found')
             continue
         img_points.append(corners.reshape(1, -1, 2))
         obj_points.append(pattern_points.reshape(1, -1, 3))
 
-        print 'ok'
+        print('ok')
 
     if args.corners:
         with open(args.corners, 'wb') as fw:
@@ -81,9 +83,9 @@ if __name__ == '__main__':
 
     print('\nPerforming calibration...')
     rms, camera_matrix, dist_coefs, rvecs, tvecs = cv2.calibrateCamera(obj_points, img_points, (w, h), None, None)
-    print "RMS:", rms
-    print "camera matrix:\n", camera_matrix
-    print "distortion coefficients: ", dist_coefs.ravel()
+    print("RMS:", rms)
+    print("camera matrix:\n", camera_matrix)
+    print("distortion coefficients: ", dist_coefs.ravel())
 
     # # fisheye calibration
     # rms, camera_matrix, dist_coefs, rvecs, tvecs = cv2.fisheye.calibrate(
@@ -95,6 +97,7 @@ if __name__ == '__main__':
     # print "camera matrix:\n", camera_matrix
     # print "distortion coefficients: ", dist_coefs.ravel()
 
-    calibration = {'rms': rms, 'camera_matrix': camera_matrix.tolist(), 'dist_coefs': dist_coefs.tolist() }
+    calibration = {'rms': rms, 'camera_matrix': camera_matrix.tolist(), 'dist_coefs': dist_coefs.tolist(),
+                   'base_res': [w, h]}
     with open(args.out, 'w') as fw:
         yaml.dump(calibration, fw)

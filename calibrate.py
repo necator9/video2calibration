@@ -61,6 +61,8 @@ if __name__ == '__main__':
             img_chess = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
             cv2.drawChessboardCorners(img_chess, pattern_size, corners, found)
             cv2.imwrite(os.path.join(args.debug_dir, '%04d.png' % i), img_chess)
+            cv2.imshow('calibration', img_chess)
+            cv2.waitKey(1)
         if not found:
             print('not found')
             continue

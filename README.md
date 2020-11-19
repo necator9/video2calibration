@@ -17,7 +17,7 @@ Example input:
 
 Example output YAML file:
 
-~~~
+```yaml
 base_res:
 - 1280
 - 720
@@ -38,8 +38,7 @@ dist_coefs:
   - 0.0005069043355896453
   - -0.03837920203383229
 rms: 0.970909312850425
-
-~~~
+```
 
 Installation
 ------------

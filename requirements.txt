@@ -1,2 +1,3 @@
 numpy
 PyYAML
+opencv-python
